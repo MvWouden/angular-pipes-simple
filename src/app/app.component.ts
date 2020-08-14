@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+export interface Server {
+  instanceType: string;
+  name: string;
+  status: string;
+  started: Date;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,7 +18,7 @@ export class AppComponent {
       resolve('stable');
     }, 2000);
   });
-  servers = [
+  servers: Server[] = [
     {
       instanceType: 'medium',
       name: 'Production',
@@ -38,13 +45,16 @@ export class AppComponent {
     }
   ];
   filteredStatus = '';
-  getStatusClasses(server: {instanceType: string, name: string, status: string, started: Date}) {
+  // tslint:disable-next-line: typedef
+  getStatusClasses(server: Server) {
     return {
       'list-group-item-success': server.status === 'stable',
       'list-group-item-warning': server.status === 'offline',
       'list-group-item-danger': server.status === 'critical'
     };
   }
+
+  // tslint:disable-next-line: typedef
   onAddServer() {
     this.servers.push({
       instanceType: 'small',
